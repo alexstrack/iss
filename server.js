@@ -1,7 +1,9 @@
+"use strict";
+
 const express = require('express');
-const request = require('request');
 const bodyparser = require('body-parser');
 const path = require('path');
+const iss_api = require('./routes/iss-api.js');
 const app = express();
 
 
@@ -12,19 +14,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false}));
 
-app.get ('/login', function (req, res){
-    res.render('index', {message: "Funciona!"});
-});
-
-app.get('/',function(req, res){
-    var url='http://api.open-notify.org/iss-now.json';
-    request(url, function(err, resp, body){
-        if (err) {
-            return console.log(err);
-        }
-        res.send(JSON.parse(body).iss_position);
-    });
-});
+app.use('/',iss_api);
 
 app.listen(3000, function(err){
     if (err) {
