@@ -23,16 +23,48 @@
   <body>
 
     <div class="container">
-      <form class="form-signin" action="/location" method="GET">
-        <h3 class="form-signin-heading">Where is ISS right now?</h3>
-        <label for="latitude" class="sr-only">Latitude</label>
-        <input type="text" id="latitude" class="form-control" placeholder="ISS latitude" value= <%= latitude%> >
-        <label for="longitude" class="sr-only">Longitude</label>
-        <input type="text" id="longitude" class="form-control" placeholder="Password" value= <%= longitude%> >
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Find...</button>
-      </form>
-
+      <div class="row">
+        <form class="form-signin" action="/location" method="GET">
+          <h3 class="form-signin-heading">Where is ISS right now?</h3>
+          <label for="latitude" class="sr-only">Latitude</label>
+          <input type="text" id="latitude" class="form-control" placeholder="ISS latitude" value= <%= latitude%> >
+          <label for="longitude" class="sr-only">Longitude</label>
+          <input type="text" id="longitude" class="form-control" placeholder="Password" value= <%= longitude%> >
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Find...</button>
+        </form>
+      </div>
+      <div class="row">
+        <div id="map"></div>
+      </div>
     </div> <!-- /container -->
+
+  <script>
+    function initMap(){
+      //iss position
+      var iss_position = {lat: <%= latitude %>, lng: <%= longitude %>}
+
+      // map options
+      var options = {
+        zoom: 4,
+        center: iss_position
+      }
+
+      // new map
+      var map = new google.maps.Map(document.getElementById('map'), options);
+
+      // Add marker
+      var marker = new google.maps.Marker ({
+        position: iss_position,
+        map: map
+      })
+    }
+  </script>
+
+  <!-- Google Maps API -->
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXZciIg7qBQSCYzJFevZCAMrdJU1O8aKI&callback=initMap">
+    </script>
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
